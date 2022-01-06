@@ -3,5 +3,5 @@ This is my portfolio repository! Includes various projects I have worked on thro
 
 1. Train Station App
 2. Physics Simulations
-3. Autonomous Drone Framework (AMF)
+3. Autonomous Drone Framework
 
