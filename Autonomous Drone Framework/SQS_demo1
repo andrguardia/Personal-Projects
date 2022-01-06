@@ -1,0 +1,49 @@
+import boto3
+
+# Creating an SQS Queue
+  #sqs = boto3.resource('sqs')
+  #queue = sqs.create_queue(QueueName='test', Attributes={'DelaySeconds': '5'})
+# Print the Queue URL and Attributes
+  #print(queue.url)
+  #print(queue.attributes.get('DelaySeconds'))
+
+#Using an Existing Queue
+  #sqs = boto3.resource('sqs')
+
+# Get the queue. This returns an SQS.Queue instance
+  #queue = sqs.get_queue_by_name(QueueName='MyQueue')
+
+# You can now access identifiers and attributes
+  #print(queue.url)
+  #print(queue.attributes.get('DelaySeconds'))
+
+#Sending A Message
+#Get Service Resource
+sqs = boto3.resource('sqs')
+#Get the Queue
+queue = sqs.get_queue_by_name(QueueName='test')
+#Create a new Message
+response = queue.send_message(MessageBody='Hello World!', MessageAttributes={'Author': {'StringValue': 'Andrew','DataType': 'String'}})
+#Obtain message ID and MD5
+print(response.get('MessageId'))
+print(response.get('MD5OfMessageBody'))
+
+#Processing a Message
+#Get server Resource
+sqs = boto3.resource('sqs')
+#Get the Queue
+
+#Process messages by printing out body and optional author name
+
+for message in queue.receive_messages(MessageAttributeNames=['Author']):
+# Get the custom author message attribute if it was set
+ author_text = ''
+ if message.message_attributes is not None:
+     author_name = message.message_attributes.get('Author').get('StringValue')
+     if author_name:
+         author_text = ' ({0})'.format(author_name)
+
+ # Print out the body and author (if set)
+print('Message from,{1}. Message Content:{0}'.format(message.body, author_text))
+# Delete messages
+message.delete()
